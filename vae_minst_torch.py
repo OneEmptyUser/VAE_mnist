@@ -50,11 +50,11 @@ train_loader = t.utils.data.DataLoader(dataset=train_dataset,
                                       shuffle=True)
 # %% See data
 examples = iter(train_loader)
-example_data,example_target = examples.next()
+example_data,example_target = next(examples)
 for i in range(6):
     plt.subplot(2,3,i+1)
     plt.imshow(example_data[i][0],cmap='gray')
-
+plt.show()
 # %%
 class Net(nn.Module):
     
@@ -168,15 +168,16 @@ def plot(vector):
     plt.imshow(vec,cmap='gray')
     plt.show()
 
-f,ax = plt.subplots(1,1)
+
 
 tar = example_data.reshape(-1,28*28).to(dev)
 tar_cpu = example_data.reshape(-1,28*28)
 #means = net.get_means(tar)#.detach().numpy()
 means,_ = net.compress(tar)
 means1 = means.to('cpu').detach().numpy()
+f,ax = plt.subplots(1,1)
 ax.scatter(means1[:,0],means1[:,1],c=example_target,s=.1)
-
+plt.show()
 reconstructed = net.decompress(t.tensor(means)).to('cpu')
 # reconstructed = reconstructed.reshape(-1,28,28)
 
@@ -196,6 +197,7 @@ for img,lab in tqdm(train_loader):
   lables = np.hstack((lables,lab))
 
 plt.scatter(encoded[:,0],encoded[:,1],c=lables) 
+plt.show()
 a = np.empty((0,2),float)
 b=np.zeros((2,2))
 
@@ -206,5 +208,8 @@ def gen_fig(vae,ax=None):
   recons_cpu = recons.to('cpu').reshape(28,28).detach().numpy()
   #print(recons_cpu)
   plt.imshow(recons_cpu,cmap='gray')
+  plt.show()
 gen_fig(net)
 
+
+# %%
