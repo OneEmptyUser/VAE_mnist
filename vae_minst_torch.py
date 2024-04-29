@@ -68,22 +68,22 @@ class Net(nn.Module):
         self.encoder = nn.Sequential(
             nn.Linear(input_size,hidden_size),
             nn.ReLU(),
-            nn.Linear(hidden_size,250),
-            nn.ReLU(),
-            nn.Linear(250,50),
-            nn.ReLU(),
-            nn.Linear(50, 2),
-            nn.ReLU()
+            nn.Linear(hidden_size,2),
+            # nn.ReLU(),
+            # nn.Linear(250,50),
+            # nn.ReLU(),
+            # nn.Linear(50, 2),
+            # nn.ReLU()
             )
         self.mu = nn.Linear(2,2)
         self.logvar = nn.Linear(2, 2)
         
         self.decoder = nn.Sequential(
-            nn.Linear(2,50),
-            nn.ReLU(),
-            nn.Linear(50,250),
-            nn.ReLU(),
-            nn.Linear(250,hidden_size),
+            # nn.Linear(2,50),
+            # nn.ReLU(),
+            # nn.Linear(50,250),
+            # nn.ReLU(),
+            nn.Linear(2,hidden_size),
             nn.ReLU(),
             nn.Linear(hidden_size,input_size),
             # nn.ReLU()
@@ -157,7 +157,7 @@ net = Model(input_size,hidden_size,num_classes)
 print('Entrenar la red')
 data = example_data[None]
 net.fit(train_loader,
-        epochs=100,
+        epochs=20,
         lr=0.001,
         verbose=1)
 
